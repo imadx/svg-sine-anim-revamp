@@ -8,7 +8,8 @@ function App() {
 
   return (
     <>
-      SVG Lines
+      <div className="bg-red-500">SVG Lines</div>
+
       <form>
         <input type="slider" />
         <input
