@@ -16,7 +16,7 @@ function App() {
         className="absolute top-0 left-0 w-full h-full"
         key={i}
         style={{
-          opacity: 1 - i * 0.1,
+          opacity: 1 - i / count,
         }}
       >
         <SvgCurve
@@ -36,7 +36,7 @@ function App() {
       <form className="relative z-10 bg-red-500">
         <InputRange
           min={1}
-          max={100}
+          max={10}
           step={1}
           value={count}
           onChange={setCount}
