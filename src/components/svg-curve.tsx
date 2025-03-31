@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from 'react';
 
 interface Props {
   amplitude?: number;
@@ -6,7 +6,7 @@ interface Props {
   frequency?: number;
 }
 
-export const SvgCurve: React.FC<Props> = ({
+export const SvgCurve: FC<Props> = ({
   amplitude = 20,
   wavelength = 30,
   frequency = 1,
@@ -22,6 +22,7 @@ export const SvgCurve: React.FC<Props> = ({
 
       setPhase((offset) => offset - frequency);
     };
+
     let animationFrameId: number;
 
     const animate = () => {
@@ -36,11 +37,11 @@ export const SvgCurve: React.FC<Props> = ({
   }, [frequency, phase, wavelength]);
 
   const path = useMemo(() => {
-    const w = wavelength * 0.01 * 1000;
-    const a = amplitude * 0.01 * 1000;
+    const w = Math.max(wavelength, 1) * 0.01 * 1000;
+    const a = Math.max(amplitude, 1) * 0.01 * 1000;
     const continuation = new Array(Math.ceil((1000 + wavelength) / wavelength))
       .fill(`t ${w} 0`)
-      .join(" ");
+      .join(' ');
 
     return `M -${w - phase} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
   }, [amplitude, phase, wavelength]);
