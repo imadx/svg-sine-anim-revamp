@@ -3,6 +3,8 @@
 This is a fun project to revamp the original SVG Sine Animation. The goal is to provide a more structured and reusable
 component for generating animated SVG curves using React.
 
+Demo: https://svg-sine-anim-revamp.vercel.app/
+
 ### Run the Project Locally
 
 ```bash
@@ -10,7 +12,6 @@ pnpm install
 pnpm dev
 ```
 
-Legacy Repository: https://github.com/imadx/svg-sine-anim
 
 ## SvgCurve Component
 
