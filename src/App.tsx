@@ -12,7 +12,13 @@ function App() {
 
   const svgLines = new Array(count).fill(0).map((_, i) => {
     return (
-      <div className="absolute top-0 left-0 w-full h-full" key={i}>
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        key={i}
+        style={{
+          opacity: 1 - i * 0.1,
+        }}
+      >
         <SvgCurve
           key={i}
           amplitude={amplitude}
