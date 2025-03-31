@@ -5,7 +5,8 @@ component for generating animated SVG curves using React.
 
 Demo: https://svg-sine-anim-revamp.vercel.app/
 
-![Demo Video](docs/demo.mp4)
+[![Watch the Video](docs/demo.png)](docs/demo.mp4)
+
 
 ### Run the Project Locally
 
