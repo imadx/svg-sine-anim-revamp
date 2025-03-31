@@ -47,7 +47,11 @@ export const SvgCurve: FC<Props> = ({
   }, [amplitude, phase, wavelength]);
 
   return (
-    <svg className="w-full h-full" viewBox="0 0 1000 1000">
+    <svg
+      className="w-full h-full"
+      viewBox="0 0 1000 1000"
+      preserveAspectRatio="none"
+    >
       <path
         d={path}
         fill="none"
