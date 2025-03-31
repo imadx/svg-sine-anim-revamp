@@ -1,31 +1,56 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export const SvgCurve = () => {
-  const [offsetY, setOffsetY] = useState(0);
+interface Props {
+  amplitude?: number;
+  wavelength?: number;
+  frequency?: number;
+}
+
+export const SvgCurve: React.FC<Props> = ({
+  amplitude = 20,
+  wavelength = 30,
+  frequency = 1,
+}) => {
+  const [phase, setPhase] = useState(0);
 
   useEffect(() => {
     const updateOffsetY = () => {
-      if (offsetY < -100) {
-        setOffsetY(0);
+      const w = wavelength * 0.01 * 1000;
+      if (phase < -w * 2) {
+        setPhase(0);
       }
 
-      setOffsetY((offset) => offset - 5);
+      setPhase((offset) => offset - frequency);
+    };
+    let animationFrameId: number;
+
+    const animate = () => {
+      updateOffsetY();
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    const interval = setInterval(updateOffsetY, 10);
+    animationFrameId = requestAnimationFrame(animate);
     return () => {
-      clearInterval(interval);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [offsetY]);
+  }, [frequency, phase, wavelength]);
+
+  const path = useMemo(() => {
+    const w = wavelength * 0.01 * 1000;
+    const a = amplitude * 0.01 * 1000;
+    const continuation = new Array(Math.ceil((1000 + wavelength) / wavelength))
+      .fill(`t ${w} 0`)
+      .join(" ");
+
+    return `M -${w - phase} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
+  }, [amplitude, phase, wavelength]);
 
   return (
     <svg className="w-full h-full" viewBox="0 0 1000 1000">
       <path
-        d={`M -${
-          180 - offsetY
-        } 0  q 90 0 180 100 t 180 0 t 180 0 t 180 0 t 180 0 t 180 0 t 180 0 t 180 0 t 180 0`}
+        d={path}
         fill="none"
-        stroke="black"
+        stroke="white"
         strokeWidth="10"
         strokeLinecap="round"
       />
