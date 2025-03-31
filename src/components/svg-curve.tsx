@@ -16,7 +16,7 @@ export const SvgCurve: FC<Props> = ({
   useEffect(() => {
     const updateOffsetY = () => {
       const w = wavelength * 0.01 * 1000;
-      if (phase < -w * 2) {
+      if (phase < -w * 4) {
         setPhase(0);
       }
 
@@ -39,7 +39,9 @@ export const SvgCurve: FC<Props> = ({
   const path = useMemo(() => {
     const w = Math.max(wavelength, 1) * 0.01 * 1000;
     const a = Math.max(amplitude, 1) * 0.01 * 1000;
-    const continuation = new Array(Math.ceil((1000 + wavelength) / wavelength))
+    const continuation = new Array(
+      Math.ceil((1000 + wavelength * 2) / wavelength)
+    )
       .fill(`t ${w} 0`)
       .join(' ');
 
