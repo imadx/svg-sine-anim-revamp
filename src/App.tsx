@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { SvgCurve } from './components/svg-curve';
 import { InputRange } from './components/input-range';
+
+const ValueResFull = 100;
 
 function App() {
   const [amplitude, setAmplitude] = useState(20);
@@ -9,6 +11,21 @@ function App() {
   const [frequency, setFrequency] = useState(10);
   const [count, setCount] = useState(1);
   const [offsetX, setOffsetX] = useState(0);
+
+  const [isUpdating, setIsUpdating] = useState(false);
+  const updatingTimeoutRef = useRef<number | null>(null);
+
+  const handleChange = () => {
+    setIsUpdating(true);
+    clearTimeout(updatingTimeoutRef.current!);
+    updatingTimeoutRef.current = setTimeout(() => {
+      setIsUpdating(false);
+    }, 500);
+  };
+
+  useEffect(() => {
+    handleChange();
+  }, [amplitude, wavelength, count, offsetX]);
 
   const svgLines = new Array(count).fill(0).map((_, i) => {
     return (
@@ -24,6 +41,8 @@ function App() {
           amplitude={amplitude}
           wavelength={wavelength}
           frequency={frequency}
+          offsetX={offsetX * i * 10}
+          isPaused={isUpdating}
         />
       </div>
     );
@@ -44,17 +63,15 @@ function App() {
         />
         <InputRange
           min={1}
-          max={100}
-          step={1}
-          value={offsetX}
-          onChange={setOffsetX}
+          max={ValueResFull}
+          value={offsetX * ValueResFull}
+          onChange={(v) => setOffsetX(v / ValueResFull)}
           label="Offset X"
         />
 
         <InputRange
           min={1}
           max={100}
-          step={1}
           value={amplitude}
           onChange={setAmplitude}
           label="Amplitude"
@@ -63,7 +80,6 @@ function App() {
         <InputRange
           min={1}
           max={100}
-          step={1}
           value={wavelength}
           onChange={setWavelength}
           label="Wavelength"
@@ -72,7 +88,6 @@ function App() {
         <InputRange
           min={1}
           max={100}
-          step={1}
           value={frequency}
           onChange={setFrequency}
           label="Frequency"

@@ -1,32 +1,52 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 
+const _globalState = {
+  current: 0,
+};
+
 interface Props {
   amplitude?: number;
   wavelength?: number;
   frequency?: number;
+  offsetX?: number;
+  isPaused?: boolean;
 }
 
 export const SvgCurve: FC<Props> = ({
   amplitude = 20,
   wavelength = 30,
   frequency = 1,
+  offsetX = 0,
+  isPaused = false,
 }) => {
-  const [phase, setPhase] = useState(0);
+  const [phase, setPhase] = useState(_globalState.current);
+  const w = useMemo(() => wavelength * 10, [wavelength]);
+  const a = useMemo(() => amplitude * 10, [amplitude]);
+  const o = useMemo(() => (offsetX * 10) % w, [offsetX, w]);
 
   useEffect(() => {
-    const updateOffsetY = () => {
-      const w = wavelength * 0.01 * 1000;
+    const updateOffsetX = () => {
       if (phase < -w * 4) {
         setPhase(0);
+        _globalState.current = 0;
+
+        return;
       }
 
-      setPhase((offset) => offset - frequency);
+      setPhase((_phase) => _phase - frequency);
+
+      _globalState.current = phase - frequency;
     };
 
     let animationFrameId: number;
 
     const animate = () => {
-      updateOffsetY();
+      if (isPaused) {
+        cancelAnimationFrame(animationFrameId);
+        return;
+      }
+
+      updateOffsetX();
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -34,19 +54,25 @@ export const SvgCurve: FC<Props> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [frequency, phase, wavelength]);
+  }, [frequency, isPaused, phase, w, wavelength]);
 
-  const path = useMemo(() => {
-    const w = Math.max(wavelength, 1) * 0.01 * 1000;
-    const a = Math.max(amplitude, 1) * 0.01 * 1000;
-    const continuation = new Array(
-      Math.ceil((1000 + wavelength * 2) / wavelength)
-    )
+  const effectivePhase = useMemo(() => {
+    return phase + o;
+  }, [o, phase]);
+
+  const pathTemplate = useMemo(() => {
+    const continuation = new Array(Math.ceil(((1000 + o) * 6) / w))
       .fill(`t ${w} 0`)
       .join(' ');
 
-    return `M -${w - phase} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
-  }, [amplitude, phase, wavelength]);
+    return `M {{initialPoint}} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
+  }, [a, o, w]);
+
+  const path = useMemo(() => {
+    const _initialPoint = 2 * w - effectivePhase;
+
+    return pathTemplate.replace('{{initialPoint}}', `-${_initialPoint}`);
+  }, [effectivePhase, pathTemplate, w]);
 
   return (
     <svg
