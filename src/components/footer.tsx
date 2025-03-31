@@ -7,15 +7,17 @@ export const Footer = () => {
 
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      /* IE/Edge */
-      elem.msRequestFullscreen();
+      return;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const _elem = document.documentElement as any;
+    if (_elem.mozRequestFullScreen) {
+      _elem.mozRequestFullScreen();
+    } else if (_elem.webkitRequestFullscreen) {
+      _elem.webkitRequestFullscreen();
+    } else if (_elem.msRequestFullscreen) {
+      _elem.msRequestFullscreen();
     }
   };
 
