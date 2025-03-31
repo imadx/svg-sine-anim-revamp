@@ -7,6 +7,7 @@ Demo: https://svg-sine-anim-revamp.vercel.app/
 
 [![Watch the Video](docs/demo.png)](docs/demo.mp4)
 
+Original implementation can still be found here https://github.com/imadx/svg-sine-anim
 
 ### Run the Project Locally
 
