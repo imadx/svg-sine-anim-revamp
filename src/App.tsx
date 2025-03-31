@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { SvgCurve } from './components/svg-curve';
 import { InputRange } from './components/input-range';
+import { GithubIcon } from 'lucide-react';
+import { Footer } from './components/footer.tsx';
 
 const ValueResFull = 100;
 
@@ -61,8 +63,8 @@ function App() {
   return (
     <>
       <div className="absolute w-screen h-screen top-0 left-0">{svgLines}</div>
-      <form className="relative z-10 bg-gray-700-500/10 flex flex-col gap-2 items-start p-4 rounded-sm backdrop-blur-3xl border border-gray-500/20 shadow">
-        <div className="font-bold text-xl py-2">SVG Waveform</div>
+      <form className="relative z-10 bg-gray-700-500/10 flex flex-col gap-6 items-start p-4 rounded-sm backdrop-blur-3xl border border-gray-500/20 shadow">
+        <div className="font-bold text-xl">SVG Waveform</div>
         <InputRange
           min={1}
           max={10}
@@ -102,6 +104,9 @@ function App() {
           onChange={setFrequency}
           label="Frequency"
         />
+
+        <hr className="w-full border-t border-gray-500/20" />
+        <Footer />
       </form>
     </>
   );
