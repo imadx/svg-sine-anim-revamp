@@ -62,19 +62,15 @@ export const SvgCurve: FC<Props> = ({
     return phase + o;
   }, [o, phase]);
 
-  const pathTemplate = useMemo(() => {
+  const path = useMemo(() => {
     const continuation = new Array(Math.ceil(((1000 + o) * 6) / w))
       .fill(`t ${w} 0`)
       .join(' ');
 
-    return `M {{initialPoint}} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
+    const _initialPoint = 2 * w;
+
+    return `M -${_initialPoint} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
   }, [a, o, w]);
-
-  const path = useMemo(() => {
-    const _initialPoint = 2 * w - effectivePhase;
-
-    return pathTemplate.replace('{{initialPoint}}', `-${_initialPoint}`);
-  }, [effectivePhase, pathTemplate, w]);
 
   return (
     <svg
@@ -88,6 +84,10 @@ export const SvgCurve: FC<Props> = ({
         stroke={color}
         strokeWidth="10"
         strokeLinecap="round"
+        style={{
+          willChange: 'transform',
+          transform: `translateX(${effectivePhase}px)`,
+        }}
       />
     </svg>
   );
