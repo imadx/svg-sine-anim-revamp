@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId } from 'react';
 
 interface Props {
   min?: number;
@@ -20,8 +20,12 @@ export const InputRange = ({
   const id = useId();
 
   return (
-    <div>
-      {label && <label htmlFor={id}>{label}</label>}
+    <div className="flex flex-col gap-1 justify-start min-w-64">
+      {label && (
+        <label htmlFor={id} className="text-left">
+          {label}
+        </label>
+      )}
       <input
         id={id}
         type="range"
@@ -30,6 +34,7 @@ export const InputRange = ({
         step={step}
         value={value}
         onChange={(e) => onChange && onChange(parseInt(e.target.value))}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-lime-500 focus:outline-none"
       />
     </div>
   );

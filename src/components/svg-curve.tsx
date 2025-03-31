@@ -69,7 +69,7 @@ export const SvgCurve: FC<Props> = ({
 
     const _initialPoint = 2 * w;
 
-    return `M -${_initialPoint} 0 q ${w / 2} 0 ${w} ${a} ${continuation}`;
+    return `M -${_initialPoint} ${500 - a} q ${w / 2} 0 ${w} ${a} ${continuation}`;
   }, [a, o, w]);
 
   return (

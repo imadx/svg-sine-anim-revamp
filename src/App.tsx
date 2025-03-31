@@ -5,12 +5,20 @@ import { InputRange } from './components/input-range';
 
 const ValueResFull = 100;
 
+const defaults = {
+  amplitude: 20,
+  wavelength: 100,
+  frequency: 10,
+  count: 4,
+  offsetX: 10,
+};
+
 function App() {
-  const [amplitude, setAmplitude] = useState(20);
-  const [wavelength, setWavelength] = useState(100);
-  const [frequency, setFrequency] = useState(10);
-  const [count, setCount] = useState(1);
-  const [offsetX, setOffsetX] = useState(0);
+  const [amplitude, setAmplitude] = useState(defaults.amplitude);
+  const [wavelength, setWavelength] = useState(defaults.wavelength);
+  const [frequency, setFrequency] = useState(defaults.frequency);
+  const [count, setCount] = useState(defaults.count);
+  const [offsetX, setOffsetX] = useState(defaults.offsetX / ValueResFull);
 
   const [isUpdating, setIsUpdating] = useState(false);
   const updatingTimeoutRef = useRef<number | null>(null);
@@ -52,9 +60,9 @@ function App() {
 
   return (
     <>
-      <div className="bg-red-500">SVG Lines</div>
       <div className="absolute w-screen h-screen top-0 left-0">{svgLines}</div>
-      <form className="relative z-10 bg-red-500">
+      <form className="relative z-10 bg-gray-700-500/10 flex flex-col gap-2 items-start p-4 rounded-sm backdrop-blur-3xl border border-gray-500/20 shadow">
+        <div className="font-bold text-xl py-2">SVG Waveform</div>
         <InputRange
           min={1}
           max={10}
