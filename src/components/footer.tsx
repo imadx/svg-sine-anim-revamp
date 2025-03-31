@@ -38,8 +38,8 @@ export const Footer = () => {
   }, []);
 
   return (
-    <div className="text-sm text-gray-400 w-64 text-left flex flex-col gap-3">
-      <p>
+    <div className="text-sm text-gray-400 w-64 text-left flex flex-col gap-5">
+      <p className="bg-black/30 border border-black/10 p-2 rounded-md">
         <span className="font-bold">Note:</span> This is a simple example of how
         to use SVG to create a continuous waveform animation.
       </p>
