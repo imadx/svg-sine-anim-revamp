@@ -34,6 +34,7 @@ function App() {
         key={i}
         style={{
           opacity: 1 - i / count,
+          filter: `blur(${(i / count) * 10}px)`,
         }}
       >
         <SvgCurve
@@ -43,6 +44,7 @@ function App() {
           frequency={frequency}
           offsetX={offsetX * i * 10}
           isPaused={isUpdating}
+          color={`hsl(${(i * 120) / count + 60}, 100%, 50%)`}
         />
       </div>
     );

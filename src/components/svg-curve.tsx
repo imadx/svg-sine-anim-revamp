@@ -10,6 +10,7 @@ interface Props {
   frequency?: number;
   offsetX?: number;
   isPaused?: boolean;
+  color?: string;
 }
 
 export const SvgCurve: FC<Props> = ({
@@ -18,6 +19,7 @@ export const SvgCurve: FC<Props> = ({
   frequency = 1,
   offsetX = 0,
   isPaused = false,
+  color = 'white',
 }) => {
   const [phase, setPhase] = useState(_globalState.current);
   const w = useMemo(() => wavelength * 10, [wavelength]);
@@ -83,7 +85,7 @@ export const SvgCurve: FC<Props> = ({
       <path
         d={path}
         fill="none"
-        stroke="white"
+        stroke={color}
         strokeWidth="10"
         strokeLinecap="round"
       />
