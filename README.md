@@ -1,4 +1,4 @@
-https://svg-sine-anim-revamp.vercel.app/demo.mp4
+https://github.com/user-attachments/assets/b9072619-f99e-40db-8f05-707ce16b32a6
 
 # SVG Sine Animation - Revamp
 
